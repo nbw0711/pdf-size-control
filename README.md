@@ -14,9 +14,10 @@ No Python installation or internet connection is needed to use these packages.
 | Platform | Package | How to run | Verification |
 | --- | --- | --- | --- |
 | macOS Apple Silicon (M series) | macOS-AppleSilicon ZIP | Extract and open the `.app` | GUI and compression self-test passed on the development Mac |
-| Windows x64 | Windows-x64 ZIP | Extract the entire folder and open `PDFCompressor.exe` | Bundle integrity and dependency checks passed; Windows execution has not yet been verified |
+| Windows x64 | Windows-x64 ZIP | Extract the entire folder and open `PDFCompressor.exe` | Four-language GUI, compression and bundled EXE/runtime self-tests passed on the GitHub Windows Server 2025 runner; manual desktop testing is still pending |
 
 Keep the Windows `runtime` and `app` folders beside the EXE. The EXE is the entry point to a portable bundle, not a single-file application.
+Windows CI validation: [successful run](https://github.com/nbw0711/pdf-size-control/actions/runs/41206275102). This validates the same application and bundled-runtime build path as the release; it is not a manual acceptance test on individual Windows PCs.
 The macOS app has a local ad-hoc signature and is not Apple notarized. Intel Macs are not supported by the supplied macOS binary.
 
 macOS：解压后打开应用；Windows：完整解压后双击 EXE，保留旁边的文件夹。两个版本均自带运行环境。
