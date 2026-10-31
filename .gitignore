@@ -1,0 +1,14 @@
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+.build/
+output/
+tmp/
+*.pdf
+*.jpg
+*.png
+*.zip
+*.exe
+*.app/
+压缩结果/

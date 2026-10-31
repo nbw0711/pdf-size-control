@@ -1,0 +1,33 @@
+name: Windows portable smoke test
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r pdf_compressor/requirements-build.txt
+      - run: python pdf_compressor/smoke_check.py
+      - run: python pdf_compressor/build_windows.py
+      - name: Verify bundled runtime and GUI
+        shell: pwsh
+        run: |
+          $report = Join-Path $env:GITHUB_WORKSPACE 'portable-test.txt'
+          $exe = Join-Path $env:GITHUB_WORKSPACE 'output/standalone/windows/PDFCompressor-Windows-x64/PDFCompressor.exe'
+          $process = Start-Process -FilePath $exe -ArgumentList @('--self-test', $report) -Wait -PassThru
+          if ($process.ExitCode -ne 0) { throw "Portable self-test failed: $($process.ExitCode)" }
+          Get-Content $report
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Windows-x64
+          path: |
+            output/standalone/windows/*.zip
+            portable-test.txt
